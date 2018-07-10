@@ -17,20 +17,30 @@ const getAllFromSWAPIEndpoint = async (endpoint) => {
 };
 
 const sortResults = (results, sortKey) => {
+    if(!sortKey) return results;
+
     const makeCompareFunction = (sortKey) => {
         return (a, b) => {
-            if (sortKey === 'name') {
+            if (sortKey === 'mass' || sortKey === 'height') {
+                const intA =  parseInt(a[sortKey].replace(',', ''), 10);
+                const intB =  parseInt(b[sortKey].replace(',', ''), 10);
+
+                // Gracefully handle NaN
+                if (isNaN(intA) && isNaN(intB)) return 0;
+
+                if (isNaN(intA) && !isNaN(intB)) return 1;
+
+                if (!isNaN(intA) && isNaN(intB)) return -1;
+
+                // Handle base case
+                return intA - intB;
+            }
+            else {
                 if (a[sortKey] < b[sortKey]) return -1;
 
                 if (a[sortKey] > b[sortKey]) return 1;
 
                 return 0;
-            }
-            else {
-                const intA =  parseInt(a[sortKey], 10);
-                const intB =  parseInt(b[sortKey], 10);
-
-                return intA - intB;
             }
         };
     };
