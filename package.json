@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/pkonneker/node-exercise/issues"
   },
-  "homepage": "https://github.com/pkonneker/node-exercise#readme"
+  "homepage": "https://github.com/pkonneker/node-exercise#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "request": "^2.87.0",
+    "request-promise": "^4.2.2"
+  }
 }
