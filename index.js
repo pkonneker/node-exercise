@@ -10,13 +10,35 @@ var app = express();
 //   and replace their urls with their full name
 
 const getAllFromSWAPIEndpoint = async (endpoint) => {
-    // response = await
+    let response = JSON.parse(await requestLib(`https://swapi.co/api/${endpoint}/`));
+    let results = response.results;
 
-    return JSON.parse(await requestLib(`https://swapi.co/api/${endpoint}/`));
+    while (response.next) {
+        response = JSON.parse(await requestLib(response.next));
+
+        results = results.concat(response.results)
+    }
+
+    return results
 };
 
-app.get('/', async function (req, res, next) {
+const sortResults = async (endpoint) => {
+    // Take in the unsorted list, and the req querystring and then sort accordingly
+};
+
+const populateResidents = async (planets) => {
+    // For each planet
+    //   For each resident
+    //     Get the resident and replace with the fullname
+    //   Set the residents to Promise.all the mapped async get function
+};
+
+app.get('/planets', async function (req, res, next) {
   res.json(await getAllFromSWAPIEndpoint('planets'));
+});
+
+app.get('/people', async function (req, res, next) {
+  res.json(await getAllFromSWAPIEndpoint('people'));
 });
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
