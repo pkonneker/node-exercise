@@ -3,9 +3,11 @@ A little exercise using a Star Wars API [https://swapi.co/](https://swapi.co/)
 
 ## Dependencies
 
-Utilizes async and await quite a bit. Was developed running node 8.10.0.
-Uses request and request-promise-native to handle api calls.
-Also uses express (as specified)
+The following prereqs are used by this implementation (individual node packages will be handled by npm)
+
+ * Utilizes async and await quite a bit. Was developed running node 8.10.0.
+ * Uses request and request-promise-native to handle api calls.
+ * Also uses express (as specified)
 
 ## Installation
 
