@@ -16,8 +16,26 @@ const getAllFromSWAPIEndpoint = async (endpoint) => {
     return results
 };
 
-const sortResults = async (endpoint) => {
-    // Take in the unsorted list, and the req querystring and then sort accordingly
+const sortResults = (results, sortKey) => {
+    const makeCompareFunction = (sortKey) => {
+        return (a, b) => {
+            if (sortKey === 'name') {
+                if (a[sortKey] < b[sortKey]) return -1;
+
+                if (a[sortKey] > b[sortKey]) return 1;
+
+                return 0;
+            }
+            else {
+                const intA =  parseInt(a[sortKey], 10);
+                const intB =  parseInt(b[sortKey], 10);
+
+                return intA - intB;
+            }
+        };
+    };
+
+    return results.sort(makeCompareFunction(sortKey));
 };
 
 const populateResidents = async (planets) => {
@@ -47,7 +65,7 @@ app.get('/planets', async (req, res, next) => {
 app.get('/people', async (req, res, next) => {
     const people = await getAllFromSWAPIEndpoint('people');
 
-    res.json(await sortResults(people));
+    res.json(sortResults(people, req.query.sortBy));
 });
 
 app.listen(3000, () => console.log('Node-exercise listening on port 3000.'))
